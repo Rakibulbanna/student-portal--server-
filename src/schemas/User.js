@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const userSchema = mongoose.Schema({
+const User = mongoose.Schema({
     
     mobileNumber:{
         type: String,
@@ -9,13 +9,11 @@ const userSchema = mongoose.Schema({
     },
     password:{
         type:String,
-        require:true
+        required:true
     },
     date: {
         type:Date,
         default:Date.now,
     }
 })
-//const User = mongoose.model("user", userSchema);
-//module.exports = User;
-module.exports = userSchema;
+module.exports = mongoose.model("User", User);

@@ -5,8 +5,8 @@ const validate = user => {
 
     if (!user.mobileNumber) {
         error.mobileNumber = 'Please Provide Your mobile Number'
-    }else if (user.mobileNumber.length < 12) {
-        error.mobileNumber = 'mobile Number Must be Greater or Equal 11 Character'
+    }else if (user.mobileNumber.length == 10) {
+        error.mobileNumber = 'mobile Number Must be Equal to 11 Character'
     }
 
     if (!user.password) {

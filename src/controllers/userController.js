@@ -4,10 +4,11 @@ const jwt = require("jsonwebtoken");
 const registerValidator = require("../validator/registerValidator");
 const loginValidator = require("../validator/loginValidator");
 const { serverError, resourceError } = require("../util/error");
+const User = require("../schemas/User");
 
-const userSchema = require("../schemas/UserSchema");
+//const userSchema = require("../schemas/UserSchema");
 
-const user = mongoose.model("user", userSchema);
+//const user = mongoose.model("user", userSchema);
 
 // login controller
 module.exports.login = async (req, res) => {
@@ -18,7 +19,7 @@ module.exports.login = async (req, res) => {
     return res.status(400).json(validate.error);
   }
 
-  await user
+  await User
     .findOne({ mobileNumber })
     // Use Populate for transaction
     .then((u) => {
@@ -62,9 +63,9 @@ module.exports.register = async (req, res) => {
   if (!validate.isValid) {
     return res.status(400).json(validate.error);
   } else {
-    user
-      .findOne({ mobileNumber })
-      .then((u) => {
+    
+      
+    await  User.findOne({ mobileNumber }).then((u) => {
         if (u) {
           return resourceError(res, "mobile Number Already Exist");
         }
@@ -75,13 +76,13 @@ module.exports.register = async (req, res) => {
             return resourceError(res, "Server Error Occurred");
           }
 
-          const newuser = new user({
+          const newuser = new User({
             mobileNumber,
             password: hash,
           });
 
-          newuser
-            .save()
+          
+            newuser.save()
             .then((u) => {
               res.status(201).json({
                 message: "User Created Successfully",

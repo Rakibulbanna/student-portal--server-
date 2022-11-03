@@ -38,6 +38,9 @@ const UserInfo = mongoose.Schema({
     },
     due:{
         type:Number
+    },
+    pastDeu:{
+        type:Number
     }
 
 })

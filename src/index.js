@@ -3,12 +3,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const passport = require('passport');
 const app = express();
-const todoHandler = require('./routeHandler/todoHandler')
-const questionHandler = require('./routeHandler/questionHandler')
+
 const userHandler = require('./routeHandler/userHandler')
-const HomeHandler = require('./routeHandler/HomeHandler');
-const TrainingHandler = require('./routeHandler/TrainingHandler');
-const PartnerHandle = require('./routeHandler/PartnerHandle');
 const UserInfoHandler = require('./routeHandler/UserInfoHandler');
 
 app.use(express.json());
@@ -26,14 +22,10 @@ mongoose
   .then(() => console.log("database connection successful!"))
   .catch((error) => console.log(error));
 
-    app.use('/todo',todoHandler);
-    app.use('/question',questionHandler);
 
     app.use('/user',userHandler);
     app.use('/userInfo',UserInfoHandler);
-    app.use('/home',HomeHandler);
-    app.use('/training',TrainingHandler);
-    app.use('/partner',PartnerHandle);
+    
     
 
 app.get("/", (req, res) => {

@@ -6,9 +6,6 @@ const loginValidator = require("../validator/loginValidator");
 const { serverError, resourceError } = require("../util/error");
 const User = require("../schemas/User");
 
-//const userSchema = require("../schemas/UserSchema");
-
-//const user = mongoose.model("user", userSchema);
 
 // login controller
 module.exports.login = async (req, res) => {
@@ -95,3 +92,13 @@ module.exports.register = async (req, res) => {
       .catch((error) => serverError(res, error));
   }
 };
+
+module.exports.allAuthenticateUser = async(req,res)=>{
+  try{
+      const data= await User.find({})
+      res.status(200).send(data)
+  }
+  catch(err){
+      res.status(200).send("error")
+  }
+}

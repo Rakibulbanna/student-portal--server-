@@ -11,7 +11,7 @@ opts.secretOrKey = 'RAKIB';
 
 module.exports = passport => {
     passport.use(new JwtStrategy(opts, (payload, done) => {
-        console.log(payload)
+        //console.log(payload)
         User.findOne({ _id: payload._id })
             .then(user => {
                 if (!user) {

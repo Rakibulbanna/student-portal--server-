@@ -55,7 +55,7 @@ module.exports.login = async (req, res) => {
         }
           else{
           res.status(200).json({
-          admitted: true,
+          admitted: false,
           mobileNumber: u.mobileNumber,
           message: "Login Successful",
           token: `Bearer ${token}`,
@@ -116,6 +116,6 @@ module.exports.allAuthenticateUser = async(req,res)=>{
       res.status(200).send(data)
   }
   catch(err){
-      res.status(200).send("error")
+      res.status(200).send({message:"Server error"})
   }
 }

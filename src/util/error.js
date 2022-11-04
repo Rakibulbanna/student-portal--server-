@@ -6,7 +6,7 @@ module.exports = {
       });
       },
       resourceError(res, message) {
-          res.status(400).json({
+          res.status(200).json({
           message
       });
       }

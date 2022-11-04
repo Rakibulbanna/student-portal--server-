@@ -39,10 +39,10 @@ if( data.totalpayable<=0 && data.semesterName=='12th'){
                 const cnt = await payment.countDocuments();
                 let semesterName;
                
-                if(cnt==0){
+                if(data.semesterName=='1st'&&cnt==0&&cgpa>=2.5){
                     semesterName='1st';
                     }  
-                        if(cgpa>=2.5){
+                        if(cnt!==0&&data.semesterName=='1st'&&cgpa>=2.5 || data.semesterName!='1st'&&cgpa>=2.5){
                           
                         if(data.semesterName=='12th'){
                             semesterName='12th'
@@ -155,7 +155,13 @@ due+= specificSemesterAmount;
         //     res.status(304).send("user didn't pass the semester but all set success!")
         // }
         // else{
-           res.status(200).send({message:"all set success!"}) 
+            if(cgpa<2.5){
+                res.status(200).send({message:"pass CGPA is 2.5,You fail. For retake payment success!"}) 
+            }
+            else{
+                res.status(200).send({message:"payment success!"}) 
+            }
+           
         //  }
         
     }
@@ -184,12 +190,12 @@ module.exports.dashboard = async(req,res)=>{
             res.status(200).send(data)
         }
         else{
-            res.status(200).send("user data not found!")
+            res.status(200).send({message:"user data not found!"})
         }
        
     }
     catch(err){
-        res.status(200).send("error")
+        res.status(200).send({message:"Server error"})
     }
 }
 // perticular user transition history
@@ -210,6 +216,7 @@ module.exports.userInfoInsert = async(req,res)=>{
     try {
         const { mobileNumber, name,department,sscPoint,hscPoint } = req.body;
         const phone = await User.findOne({mobileNumber: mobileNumber});
+        console.log(phone)
         if(phone){
             const info = await departmentInfo.find(e => e.name == department);
 
@@ -233,18 +240,18 @@ const dueInoneSemester = oneSemesterAmount-paid;
 
         });
         await NewUserInfo.save();
-        res.status(200).send("User Information inserted")  
+        res.status(200).send({error:false,message:"User Information inserted"})  
         }
         else{
-            res.status(200).send("please give that phone number that you used to open account!") 
+            res.status(200).send({error:true,message:"please give that phone number that you used to open account!"}) 
         }       
     } 
     catch(err) {
         if (err.code === 11000) {
-            res.status(500).send("This mobile number is alrady taken!");
-          } else {
-            res.status(500).send("server side error!");
-          }
+           return res.status(200).send({error:true,message:"This mobile number is alrady taken!"});
+          } 
+            res.status(500).send({message:"server side error!"});
+          
     }
 }
 // All user all information
@@ -254,7 +261,7 @@ module.exports.allUserInfo = async(req,res)=>{
         res.status(200).send(data)
     }
     catch(err){
-        res.status(200).send("error")
+        res.status(200).send({message:"server side error"})
     }
 }
 // all user transition

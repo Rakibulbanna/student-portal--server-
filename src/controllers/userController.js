@@ -5,6 +5,7 @@ const registerValidator = require("../validator/registerValidator");
 const loginValidator = require("../validator/loginValidator");
 const { serverError, resourceError } = require("../util/error");
 const User = require("../schemas/User");
+const UserInfo = require("../schemas/UserInfo");
 
 
 // login controller
@@ -23,7 +24,7 @@ module.exports.login = async (req, res) => {
       if (!u) {
         return resourceError(res, "User Not Found");
       }
-      bcrypt.compare(password, u.password, (err, result) => {
+      bcrypt.compare(password, u.password,async (err, result) => {
         if (err) {
           return serverError(res, err);
         }
@@ -41,11 +42,26 @@ module.exports.login = async (req, res) => {
           "RAKIB",
           { expiresIn: "2h" }
         );
-
-        res.status(200).json({
+          
+        const userInfodata=  await UserInfo.findOne({ mobileNumber: mobileNumber })
+          
+        if(userInfodata){
+          res.status(200).json({
+          admitted: true,
+          mobileNumber: u.mobileNumber,
+          message: "Login Successful",
+          token: `Bearer ${token}`,
+            })
+        }
+          else{
+          res.status(200).json({
+          admitted: true,
+          mobileNumber: u.mobileNumber,
           message: "Login Successful",
           token: `Bearer ${token}`,
         });
+        }
+        
       });
     })
     .catch((error) => serverError(res, error));

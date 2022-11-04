@@ -1,8 +1,8 @@
 const express = require('express');
+const { authentication, checkUser } = require('../config/Authenticate');
 const { paymentController, dashboard, transition, userInfoInsert, allUserInfo, allTransition } = require('../controllers/UserInfoController');
 
 const router = express.Router();
-const authenticate = require('../config/Authenticate');
 
 
 //Galib's admission form insert
@@ -15,13 +15,13 @@ router.post('/',userInfoInsert)
 
 
 //perticular user dashboard
-router.get('/dashboard/:mobileNumber',dashboard)
+router.get('/dashboard/:mobileNumber',authentication,checkUser,dashboard)
 
 // perticular user payment
 router.put('/payment/:mobileNumber',paymentController)
 
 // perticular user transition history
-router.get('/transition/:mobileNumber',transition)
+router.get('/transaction/:mobileNumber',transition)
 
 // all user transition history
 router.get('/alltransition',allTransition)

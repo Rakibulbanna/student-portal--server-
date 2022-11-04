@@ -50,6 +50,9 @@ if( data.totalpayable<=0 && data.semesterName=='12th'){
                             const i =  semester.findIndex((j)=>j==data.semesterName);
                             semesterName= semester[i+1]
                         }
+                    }
+                else if(cgpa<2.5){
+                    semesterName = data.semesterName;
                 }
                 
         const paid = amount;
@@ -125,7 +128,7 @@ due+= specificSemesterAmount;
                             const i =  semester.findIndex((j)=>j==data.semesterName);
                             semesterName= semester[i+1]
                         }
-                }
+                        }
                 await UserInfo.findOneAndUpdate(
                     {mobileNumber:req.params.mobileNumber},
                     {
@@ -176,7 +179,7 @@ due+= specificSemesterAmount;
 
 module.exports.dashboard = async(req,res)=>{
     try{
-        const data= await UserInfo.findOne({mobileNumber: req.params.mobileNumber}).select('specificSemesterAmount totalpayable due');
+        const data= await UserInfo.findOne({mobileNumber: req.params.mobileNumber}).select('specificSemesterAmount totalpayable due pastDeu semesterName');
         if(data){
             res.status(200).send(data)
         }

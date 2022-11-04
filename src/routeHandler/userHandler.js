@@ -7,7 +7,7 @@ const {login, register, allAuthenticateUser} = require('../controllers/userContr
 const authenticate = require('../config/Authenticate');
 
 
-router.get('/',authenticate.authentication,allAuthenticateUser)
+router.get('/',allAuthenticateUser)
    
 router.post('/register',register)
 

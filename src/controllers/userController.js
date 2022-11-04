@@ -83,7 +83,7 @@ module.exports.register = async (req, res) => {
             .then((u) => {
               res.status(201).json({
                 message: "User Created Successfully",
-                u,
+                //u,
               });
             })
             .catch((error) => serverError(res, error));
@@ -92,6 +92,7 @@ module.exports.register = async (req, res) => {
       .catch((error) => serverError(res, error));
   }
 };
+// all AuthenticateUser
 
 module.exports.allAuthenticateUser = async(req,res)=>{
   try{

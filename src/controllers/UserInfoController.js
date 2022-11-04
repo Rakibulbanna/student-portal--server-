@@ -20,6 +20,7 @@ const departmentInfo = [
         CostPerCredit:5000
     },
 ]
+// perticular user payment
 
 module.exports.paymentController = async (req,res)=>{
     try{
@@ -171,9 +172,11 @@ due+= specificSemesterAmount;
       }
  }
 }
+//perticular user dashboard
+
 module.exports.dashboard = async(req,res)=>{
     try{
-        const data= await UserInfo.findOne({mobileNumber: req.params.mobileNumber}).select('specificSemesterAmount due');
+        const data= await UserInfo.findOne({mobileNumber: req.params.mobileNumber}).select('specificSemesterAmount totalpayable due');
         if(data){
             res.status(200).send(data)
         }
@@ -186,6 +189,8 @@ module.exports.dashboard = async(req,res)=>{
         res.status(200).send("error")
     }
 }
+// perticular user transition history
+
 module.exports.transition = async(req,res)=>{
     try{
     const data = await payment.find({mobileNumber:req.params.mobileNumber});
@@ -196,6 +201,8 @@ module.exports.transition = async(req,res)=>{
 }
     
 }
+// perticular user information form insert
+
 module.exports.userInfoInsert = async(req,res)=>{
     try {
         const { mobileNumber, name,department,sscPoint,hscPoint } = req.body;
@@ -237,6 +244,7 @@ const dueInoneSemester = oneSemesterAmount-paid;
           }
     }
 }
+// All user all information
 module.exports.allUserInfo = async(req,res)=>{
     try{
         const data= await UserInfo.find({})
@@ -245,4 +253,14 @@ module.exports.allUserInfo = async(req,res)=>{
     catch(err){
         res.status(200).send("error")
     }
+}
+// all user transition
+module.exports.allTransition=async(req,res)=>{
+    try{
+        const data = await payment.find({});
+        res.send(data)
+        }
+        catch(err){
+        res.status(200).send({message:"server error!"})
+        } 
 }

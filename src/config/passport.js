@@ -1,6 +1,6 @@
 const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJwt = require('passport-jwt').ExtractJwt
-const jwt = require('jsonwebtoken');
+
 
 const User = require('../schemas/User');
 
@@ -25,7 +25,4 @@ module.exports = passport => {
                 return done(error)
             })
     }))
-}
-module.exports.decoder = ()=>{
-
 }

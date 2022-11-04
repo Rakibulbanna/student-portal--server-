@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const passport = require('passport');
 const app = express();
+const port = process.env.PORT || 5001;
 
 const userHandler = require('./routeHandler/userHandler')
 const UserInfoHandler = require('./routeHandler/UserInfoHandler');
@@ -41,6 +42,6 @@ app.use((err,req,res,next)=>{
    });
 })
 
-app.listen(5001, () => {
+app.listen(port, () => {
   console.log("server is running at 5001 port");
 });

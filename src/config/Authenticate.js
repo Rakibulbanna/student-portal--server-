@@ -1,6 +1,10 @@
 const passport = require('passport')
 
-module.exports = (req, res, next) => {
+module.exports.authentication = (req, res, next) => {
+    // const BearerToken = req.headers.authorization;
+    // const token = token.split('Bearer ')[1];
+    
+
     passport.authenticate('jwt', (err, user, info) => {
         if (err) {
             console.log(info)

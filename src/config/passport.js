@@ -1,5 +1,6 @@
 const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJwt = require('passport-jwt').ExtractJwt
+const jwt = require('jsonwebtoken');
 
 const User = require('../schemas/User');
 
@@ -10,6 +11,7 @@ opts.secretOrKey = 'RAKIB';
 
 module.exports = passport => {
     passport.use(new JwtStrategy(opts, (payload, done) => {
+        console.log(payload)
         User.findOne({ _id: payload._id })
             .then(user => {
                 if (!user) {
@@ -23,4 +25,7 @@ module.exports = passport => {
                 return done(error)
             })
     }))
+}
+module.exports.decoder = ()=>{
+
 }

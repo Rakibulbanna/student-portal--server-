@@ -25,7 +25,7 @@ module.exports.authentication = (req, res, next) => {
 }
 
 module.exports.checkUser = (req, res, next)=>{
-    
+   // console.log(req.params.mobileNumber,"   ",req.user.mobileNumber)
     if(req.params.mobileNumber == req.user.mobileNumber){
         return next()
     }

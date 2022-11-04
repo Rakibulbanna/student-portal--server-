@@ -14,7 +14,7 @@ const router = express.Router();
 
 
  // perticular user information form insert
- router.post('/',authentication,checkUser,userInfoInsert)
+ router.post('/:mobileNumber',authentication,checkUser,userInfoInsert)
 
 //perticular user dashboard
 router.get('/dashboard/:mobileNumber',authentication,checkUser,dashboard)

@@ -32,18 +32,18 @@ module.exports.paymentController = async (req,res)=>{
 if( data.totalpayable<=0 && data.semesterName=='12th'){
             res.send({message:"congratulatons!"})
             return;
-        }
-        else{
-            if(data.totalpayable>=0){
+    }
+ else{
+    if(data.totalpayable>=0){
 
-                const cnt = await payment.countDocuments();
+        const paymentcnt = await payment.find({mobileNumber:req.params.mobileNumber})
+        const cnt = paymentcnt.length;
                 let semesterName;
                
                 if(data.semesterName=='1st'&&cnt==0&&cgpa>=2.5){
                     semesterName='1st';
                     }  
                         if(cnt!==0&&data.semesterName=='1st'&&cgpa>=2.5 || data.semesterName!='1st'&&cgpa>=2.5){
-                          
                         if(data.semesterName=='12th'){
                             semesterName='12th'
                         }else{
@@ -112,16 +112,17 @@ due+= specificSemesterAmount;
         })
         await NewPayment.save();
         res.status(200).send({message:"all set success!"})
-}
+    }
 
     else{
-        const data = await UserInfo.findOne({mobileNumber:req.params.mobileNumber});
-        const cnt = await payment.countDocuments();
+       
+        const paymentcnt = await payment.find({mobileNumber:req.params.mobileNumber})
+        const cnt = paymentcnt.length;
                 let semesterName;
-                if(cnt==0){
+                if(data.semesterName=='1st'&&cnt==0&&cgpa>=2.5){
                     semesterName='1st';
                     }  
-                        if(cgpa>=2.5){
+                        if(cnt!==0&&data.semesterName=='1st'&&cgpa>=2.5 || data.semesterName!='1st'&&cgpa>=2.5){
                         if(data.semesterName=='12th'){
                             semesterName='12th'
                         }else{
@@ -219,7 +220,7 @@ module.exports.userInfoInsert = async(req,res)=>{
         const hscPoint = parseFloat(req.body.hscPoint);
 
         const phone = await User.findOne({mobileNumber: mobileNumber});
-        console.log(phone)
+       // console.log(phone)
         if(phone){
             const info = await departmentInfo.find(e => e.name == department);
 
@@ -250,10 +251,13 @@ const dueInoneSemester = oneSemesterAmount-paid;
         }       
     } 
     catch(err) {
+        console.log(err)
         if (err.code === 11000) {
-           return res.status(200).send({error:true,message:"This mobile number is alrady taken!"});
-          } 
+         res.status(200).send({error:true,message:"This mobile number is alrady taken!"});
+          } else{
             res.status(500).send({message:"server side error!"});
+          }
+            
           
     }
 }

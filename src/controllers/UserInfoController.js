@@ -24,8 +24,8 @@ const departmentInfo = [
 
 module.exports.paymentController = async (req,res)=>{
     try{
-    const cgpa = req.body.cgpa;
-    const amount=req.body.amount
+    const cgpa =  parseFloat(req.body.cgpa);
+    const amount = parseFloat(req.body.amount);
 
     if(amount){
         const data = await UserInfo.findOne({mobileNumber:req.params.mobileNumber});
@@ -214,7 +214,10 @@ module.exports.transition = async(req,res)=>{
 
 module.exports.userInfoInsert = async(req,res)=>{
     try {
-        const { mobileNumber, name,department,sscPoint,hscPoint } = req.body;
+        const { mobileNumber, name,department} = req.body;
+        const sscPoint = parseFloat(req.body.sscPoint);
+        const hscPoint = parseFloat(req.body.hscPoint);
+
         const phone = await User.findOne({mobileNumber: mobileNumber});
         console.log(phone)
         if(phone){

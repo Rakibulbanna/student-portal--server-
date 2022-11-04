@@ -11,9 +11,10 @@ const router = express.Router();
 // All user all information
 // router.get('/',allUserInfo)
 
-// // perticular user information form insert
-// router.post('/',userInfoInsert)
 
+
+ // perticular user information form insert
+ router.post('/',authentication,checkUser,userInfoInsert)
 
 //perticular user dashboard
 router.get('/dashboard/:mobileNumber',authentication,checkUser,dashboard)
